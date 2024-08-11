@@ -11,12 +11,8 @@
 <body>
     <h1>Dominio de los juegos colectivos en las Olimpiadas</h1>
     <p>Los juegos colectivos, también conocidos como deportes de equipo, juegan un papel crucial en la diversidad y riqueza del programa olímpico, ofreciendo oportunidades para la cooperación, la estrategia y las habilidades tácticas. 
-      Desde los inicios hasta la actualidad de las Olimpiadas, se han jugado en equipo alrededor de 38 deportes, con varias modalidades. Muchos de estos deportes ya no se juegan en la actualidad, pero un gran número de ellos sí se mantienen.
-        </p>
-
-
+      Desde los inicios hasta la actualidad de las Olimpiadas, se han jugado en equipo alrededor de 38 deportes, con varias modalidades. Muchos de estos deportes ya no se juegan en la actualidad, pero un gran número de ellos sí se mantienen.</p>
   <div class="botones-container"></div>
-
     <div class="item">
         <span class="bolded">Atletismo</span>
         <span class="flecha">&#x25BC;</span> 
@@ -39,10 +35,17 @@
           Un rival que ha tenido China desde los inicios ha sido Corea, y ha estado a la altura. Corea, en 1992, al inicio de este deporte, logró llevarse dos medallas. Las medallas quedaron repartidas entre estos dos países hasta 2012, cuando Corea no obtuvo medalla, pero a diferencia de China, sí logró una medalla en 2016.
           
           Los dobles mixtos se añadieron a la disciplina cuatro años después, en Atlanta. La última modalidad que se introdujo fue los dobles mixtos, y en esta ocasión, China nos sigue dando éxitos, invicta desde el inicio. Este deporte es dominado en gran medida por los países de Asia.
-<!-- grafico de mapa -->
+          <p>A continuación, se aprecian las distribuciones de la cantidad de países por continentes que han tenido participación, así como de aquellos que han obtenido medallas.
+            </p> 
+            <button id="btnParticipaciones">Mostrar Participaciones de los países</button>
+            <button id="btnMedallas">Mostrar Medallas obtenidas por los países</button>
+            
+            <div id="contenedorDelGrafico">
+              <canvas id="miGraficoPastel"></canvas>
+          </div>
+          
         </div>
       </div>
-
 
     <div class="item">
         <span class="bolded">Baloncesto</span>
@@ -61,7 +64,7 @@
         <span class="flecha">&#x25BC;</span> 
         <div class="texto-adicional" style="display: none;">
             
-          l baloncesto 3x3 es un deporte que tiene sus raíces en el baloncesto callejero. Se juega en la mitad de una pista de baloncesto, donde compiten dos equipos de tres jugadores. Ambos equipos atacan y defienden en el mismo aro, dependiendo de quién tenga la posesión del balón.
+          El baloncesto 3x3 es un deporte que tiene sus raíces en el baloncesto callejero. Se juega en la mitad de una pista de baloncesto, donde compiten dos equipos de tres jugadores. Ambos equipos atacan y defienden en el mismo aro, dependiendo de quién tenga la posesión del balón.
 
           En 2020, el baloncesto 3x3 fue incluido en el programa olímpico, tanto en la modalidad femenina como masculina. Las medallas masculinas fueron para Letonia, el Comité Olímpico Ruso y Serbia. En cambio, el oro, la plata y el bronce en la categoría femenina fueron para los Estados Unidos de América, el Comité Olímpico Ruso y la República Popular de China.
     </div>
@@ -85,18 +88,12 @@ El balonmano femenino, introducido en las siguientes ediciones, vio a la Unión 
   <span class="bolded">Beisbol</span>
     <span class="flecha">&#x25BC;</span> 
     <div class="texto-adicional" style="display: none;">
+      El béisbol es tradicionalmente jugado por hombres, mientras que el sóftbol es la versión femenina del deporte. El béisbol se practica por primera vez en Inglaterra, pero se considera el pasatiempo nacional de Estados Unidos.
+
+        Se incorporó como parte del programa olímpico en los Juegos Olímpicos de Barcelona 1992. En su debut, Cuba ganó la medalla de oro, y obtuvo resultados notables hasta 2008. 
         
-      El balonmano es otro deporte que desarrolla las habilidades de ataque y defensa en equipo. La Unión Soviética, Hungría, Yugoslavia, Rumania, Dinamarca, España y Suecia dominaron la escena durante las décadas de los 70 y 80, con Rumania y la Unión Soviética como máximos ganadores.
+        Estados Unidos no se queda atrás, logrando ser campeón en cuatro ocasiones junto a Japón, que se coronó campeón en los Juegos Olímpicos de Tokio 2020.   <!-- podria ir una grafica -->
 
-      La década de los 90 trajo consigo nuevos contendientes, como Francia, que se convirtió en la nación con más medallas en este deporte. Egipto y Brasil, aunque con una participación activa, aún no han logrado subir al podio. Suecia, por su parte, continuó su participación, comenzando a cosechar victorias a partir de esta década.
-      
-      El balonmano femenino, introducido en las siguientes ediciones, vio a la Unión Soviética como la campeona dominante durante la década de los 80. La República de Corea, con su primera participación en 1984, logró 6 medallas, mientras que Noruega se posicionó como la nación con más medallas en total, acumulando 7 medallas.
-    <!-- podria ir una grafica -->
-
-<div>
-  <canvas id="parseCSVData" width="800" height="600"></canvas>
-
-</div>
   </div>
   </div>
 

@@ -55,11 +55,11 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('base_datos.csv')
       .then(response => response.text()) 
       .then(data1 => {
-        const parsedData = Papa.parse(data1, {header: true}).data;
+        parsedData = Papa.parse(data1, {header: true}).data;
         if(parsedData.length > 0) {
           console.log("Carga Exitosa");
           beachvoley(parsedData); 
-          parseCSVData(parsedData)
+          parseCSVData(parsedData, false)
         }
     });
 });
@@ -69,58 +69,284 @@ document.querySelectorAll('.flecha').forEach(flecha => {
     
       textoAdicional.style.display = textoAdicional.style.display === 'none' ? 'block' : 'none';
       
-      this.textContent = this.textContent === '▼' ? '►' : '▼'; // Flecha hacia abajo y hacia arriba
+      this.textContent = this.textContent === '▼' ? '►' : '▼'; 
     });
   });
 
-function parseCSVData(csvData) {
+
+
+ 
+  function parseCSVData(csvData, filterMedals = false) {
     const continentCount = {};
+    const countryByContinent = {
+        America_del_Norte:[
+            "Antigua y Barbuda",
+            'Bahamas',
+            'Barbados',
+            'Canada',
+            'Costa Rica',
+            'Cuba',
+            'Dominica',
+            'Granda',
+            'Jamaica',
+            'Estados Unidos de America',
+            'Mexico',
+            'Panama',
+            'Republica Dominicana',
+            'Trinidad y Tobago'],
+        America_del_Sur:[
+            'Argentina',
+            'Bolivia',
+            'Brasil',
+            'Chile',
+            'Colombia',
+            'Ecuador',
+            'Guyana',
+            'Peru',
+            'Surinam',
+            'Uruguay',
+            'Venezuela'],
+        Asia:[
+            'Afganistan',
+            'Arabia Saudita',
+            'Armenia',
+            'Azerbaijan',
+            'Bahrein',
+            'Bangladesh',
+            'Brunei',
+            'Butan',
+            'Emiratos Arabes Unidos',
+            'Filipinas',
+            'Georgia',
+            'India',
+            'Indonesia',
+            'Iran',
+            'Iraq',
+            'Israel',
+            'Japon',
+            'Jordania',
+            'Kampuchea',
+            'Kazakstan',
+            'Kirguizistan',
+            'Kuwait',
+            'Laos',
+            'Libano',
+            'Malasia',
+            'Maldivas',
+            'Mongolia',
+            'Myanmar',
+            'Nepal',
+            'Oman',
+            'Pakistan',
+            'Palestina',
+            'Republica de Corea',
+            'Republica Popular Democratica de Corea',
+            'Singapur',
+            'Sri Lanka',
+            'Siria',
+            'Tadjikistan',
+            'Tailandia',
+            'Timor Oriental',
+            'Turkmenistan',
+            'Turkia',
+            'Vietnam',
+            'Yemen'],
+            Africa:[
+                'Sudafrica',
+                'Angola',
+                'Argelia',
+                'Benin',
+                'Botswana',
+                'Burundi',
+                'Cabo Verde',
+                'Camerun',
+                'Comores',
+                'Congo',
+                'Costa de Marfil',
+                'Egipto',
+                'Eritrea',
+                'Etiopia',
+                'Gabon',
+                'Gambia',
+                'Ghana',
+                'Guinea',
+                'Guinea Ecuatorial',
+                'Jibuti',
+                'Kenia',
+                'Uzbekistan',
+                'Lesotho',
+                'Libia',         
+                'Madagascar',
+                'Mali',
+                'Mauricio',
+                'Mauritania',
+                'Marruecos',
+                'Mozambique',
+                'Namibia',
+                'Niger',
+                'Nigeria',
+                'Republica de Africa Central',
+                'Republica del Congo',
+                'Ruanda',
+                'Sao Tome y Principe',
+                'Senegal',
+                'Seychelles',
+                'Sierra Leona',
+                'Sudan',
+                'Tanzania',
+                'Togo',
+                'Tunez',
+                'Uganda',
+                'Zambia',
+                'Zimbabwe'],
+                Europa:[
+                    'Albania',
+                    'Alemania',
+                    'Andorra',
+                    'Austria',
+                    'Belgica',
+                    'Bielorusia',
+                    'Bosnia y Herzegovina',
+                   'Bulgaria',
+                    'Checo',
+                    'Chipre',
+                    'Croacia',
+                    'Dinamarca',
+                    'Eslovaqiau',
+                    'Eslovenia',
+                    'Espana',
+                    'Estonia',
+                    'Finlandia',
+                    'Francia',
+                    'Gran Bretana',
+                    'Grecia',
+                    'Holanda',
+                    'Hungria',
+                    'Italia',
+                    'Irlanda',
+                    'Islandia',
+                    'Letonia',
+                    'Liechtenstein',
+                    'Lituania',
+                    'Luxemburgo',
+                    'Macedonia',
+                    'Moldavia',
+                    'Malta',
+                    'Monaco',
+                    'Noruega',
+                    'Polonia',
+                    'Portugal',
+                    'Rumania',
+                    'Rusia',
+                    'San Marino',
+                    'Serbia y Montenegro',
+                    'Suecia',
+                    'Suiza',
+                    'Ucrania',
+                    'Uzbekistan'],
+            Oceania:[
+                'Australia',
+                'Fiji',
+                'Islas de Cook',
+                'Kiribati',
+                'Micronesie',
+                'Nueva Zelanda',
+                'Papua Nueva Guinea',
+                'Samoa',
+                'Tonga',
+                'Vanuatu']
+      }
 
-    csvData.forEach(row => {
-        const country = row['Country']; 
-        const continent = row['Continent'];
 
-        if (country && continent) {
+        csvData.forEach(row => {
+        const country = row['Country'];
+        const sport = row['Sport'];
+        const hasMedals = row['Medals'] !== '0';
+
+        if (country && sport === 'Badminton') {
+            let found = false;
+            let continent = '';
+
+            Object.keys(countryByContinent).forEach(continentKey => {
+                if (countryByContinent[continentKey].includes(country)) {
+                    found = true;
+                    continent = continentKey;
+                }
+            });
+
+            if (!found) return; 
+
+            if (filterMedals && !hasMedals) return; 
+
             if (!continentCount[continent]) {
-                continentCount[continent] = new Set();
-            }
-            continentCount[continent].add(country); // Usamos un Set para evitar duplicados
+                continentCount[continent] = 0;
+            };
+            continentCount[continent]++;
         }
     });
 
-    // Convertir el Set a un array y contar
-    const regionData = {};
-    for (const [continent, countries] of Object.entries(continentCount)) {
-        regionData[continent] = {
-            labels: Array.from(countries),
-            values: [countries.size] // Solo contamos el número de países
-        };
-    }
-
-    const canvas = document.getElementById('worldMap');
-        const ctx = canvas.getContext('2d');
-
-        const img = new Image();
-        img.src = 'mapa.png'; 
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            // Superponer gráficos de pastel en las coordenadas correspondientes
-            Object.keys(regionData).forEach((region, index) => {
-                const data = regionData[region];
-                const x = 100 + index * 150; 
-                const y = 100; 
-                const pieCanvas = document.createElement('canvas');
-                pieCanvas.width = 100;
-                pieCanvas.height = 100;
-                document.body.appendChild(pieCanvas);
-                createPieChart(pieCanvas.getContext('2d'), data);
-                ctx.drawImage(pieCanvas, x, y);
-                document.body.removeChild(pieCanvas);
-            });
-        };
+    return continentCount;
 }
+
+let miGraficoPastel = null;
+
+function crearOActualizarGrafico(datos) {
+    const ctx = document.getElementById('miGraficoPastel').getContext('2d');
     
+    if (!miGraficoPastel) {
+        miGraficoPastel = new Chart(ctx, {
+            type: 'pie',
+            data: datos,
+            options: {
+                responsive: true,
+                
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Participaciones por Continente' }
+                }
+            }
+        });
+    } else {
+        miGraficoPastel.data = datos;
+        miGraficoPastel.update();
+    }
+}
+
+function generarColores(cantidad) {
+    const colores = [];
+    for (let i = 0; i < cantidad; i++) {
+        const color = '#' + Math.floor(Math.random()*16777215).toString(16);
+        colores.push(color);
+    }
+    return colores;
+}
+
+    
+document.getElementById('btnParticipaciones').addEventListener('click', () => {
+    const datosFiltrados = parseCSVData(parsedData, false); 
+    const datosParaGrafico = {
+        labels: Object.keys(datosFiltrados),
+        datasets: [{
+            label: 'Participaciones',
+            data: Object.values(datosFiltrados),
+            backgroundColor: generarColores(Object.keys(datosFiltrados).length)
+        }]
+    };
+    crearOActualizarGrafico(datosParaGrafico);
+});
+
+document.getElementById('btnMedallas').addEventListener('click', () => {
+    const datosFiltrados = parseCSVData(parsedData, true); 
+    const datosParaGrafico = {
+        labels: Object.keys(datosFiltrados),
+        datasets: [{
+            label: 'Medallas',
+            data: Object.values(datosFiltrados),
+            backgroundColor: generarColores(Object.keys(datosFiltrados).length)
+        }]
+    };
+    crearOActualizarGrafico(datosParaGrafico);
+});
 
        
         

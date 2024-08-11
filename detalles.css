@@ -1,12 +1,12 @@
 .item {
     padding: 20px;
     border-bottom: 1px solid #ccc;
-    justify-content: center;
+    
 }
 
 .bolded {
     font-weight: bold;
-    justify-content: center;
+    
 }
 
 .flecha {
@@ -15,16 +15,20 @@
 
 .texto-adicional.oculto {
     display: none;
-    justify-content: center;
+
 }
 
-.botones-container{
+.botones-container {
     display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
-    align-items: center; /* Centraliza los elementos horizontalmente */
-    justify-content: center; /* Centraliza los elementos verticalmente si el contenedor tiene una altura específica */
-    height: 100vh; /* Ocupa toda la altura de la vista del navegador para centrar verticalmente */
+    flex-direction: column; 
 }
 
+#worldMap {
+    width: 100%;
+    height: auto;
+}
 
-
+#contenedorDelGrafico {
+    width: 10%; 
+    height: auto; 
+}
