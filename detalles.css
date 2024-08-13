@@ -23,24 +23,9 @@
     flex-direction: column; 
 }
 
-#worldMap {
-    width: 100%;
-    height: auto;
-}
-
 #contenedorDelGrafico {
-    width: 10%; 
+    width: 50%; 
     height: auto; 
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    text-align: center; 
 }
 
 header {

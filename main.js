@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
           console.log("Carga Exitosa");
           beachvoley(parsedData); 
           parseCSVData(parsedData, false)
+          can_sport(parsedData)
         }
     });
 });
@@ -73,9 +74,6 @@ document.querySelectorAll('.flecha').forEach(flecha => {
     });
   });
 
-
-
- 
   function parseCSVData(csvData, filterMedals = false) {
     const continentCount = {};
     const countryByContinent = {
@@ -256,8 +254,6 @@ document.querySelectorAll('.flecha').forEach(flecha => {
                 'Tonga',
                 'Vanuatu']
       }
-
-
         csvData.forEach(row => {
         const country = row['Country'];
         const sport = row['Sport'];
@@ -302,7 +298,7 @@ function crearOActualizarGrafico(datos) {
                 
                 plugins: {
                     legend: { position: 'top' },
-                    title: { display: true, text: 'Participaciones por Continente' }
+                    title: { display: true, text: 'Distribución de países por continente' }
                 }
             }
         });
@@ -348,5 +344,48 @@ document.getElementById('btnMedallas').addEventListener('click', () => {
     crearOActualizarGrafico(datosParaGrafico);
 });
 
-       
+   function can_sport(csv){
+    const counts={};
+    csv.forEach(row => {
+        const year = row['Year']; 
+        const sport = row['Sport']; 
+
+        if (!counts[year]) {
+            counts[year] = new Set(); 
+        }
+        counts[year].add(sport);
+    });
+
+    const labels = Object.keys(counts);
+    const values = labels.map(year => counts[year].size);
+    const ctx = document.getElementById('Cantidad_deporte').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Deportes Colectivos',
+                data: values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Cantidad de deportes colectivos en los Juegos Olímpicos'
+                }
+            }
+        }
+    });
+    
+}    
         
