@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
           beachvoley(parsedData); 
           parseCSVData(parsedData, false)
           can_sport(parsedData)
+          tabla(parsedData)
         }
     });
 });
@@ -389,3 +390,43 @@ document.getElementById('btnMedallas').addEventListener('click', () => {
     
 }    
         
+function tabla(data) {
+    let medalCount = {};
+
+    data.forEach(row => {
+        let country = row['Country'];
+        let medalType = row['Medals'];
+
+        if (!medalCount[country]) {
+            medalCount[country] = { gold: 0, silver: 0, bronze: 0, total: 0 };
+        }
+
+        if (medalType === 'Gold') {
+            medalCount[country].gold += 1;
+        } else if (medalType === 'Silver') {
+            medalCount[country].silver += 1;
+        } else if (medalType === 'Bronze') {
+            medalCount[country].bronze += 1;
+        }
+
+        medalCount[country].total = medalCount[country].gold + medalCount[country].silver + medalCount[country].bronze;
+    });
+
+    let sortedCountries = Object.keys(medalCount).sort((a, b) => medalCount[b].total - medalCount[a].total).slice(0, 10);
+
+    let tableBody = document.querySelector('#medalTable tbody');
+    tableBody.innerHTML = ''; 
+    sortedCountries.forEach(country => {
+        let row = document.createElement('tr');
+        let countryCell = document.createElement('td');
+        let medalsCell = document.createElement('td');
+
+        countryCell.textContent = country;
+        medalsCell.textContent = medalCount[country].total;
+
+        row.appendChild(countryCell);
+        row.appendChild(medalsCell);
+        tableBody.appendChild(row);
+    });
+}
+
